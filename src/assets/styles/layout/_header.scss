@@ -1,0 +1,20 @@
+.test__header{
+    display: none;
+    width: 100%;
+    height: 9vh;
+    background-color: #324ED4;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    img{
+        width: 70px;
+        height: 70px;
+    }
+    .header__title{
+        strong{
+            display: block;
+            color: #fff;
+        }
+    }
+
+}
