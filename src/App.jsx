@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import "./App.scss";
 import { Loader } from "./components/layouts";
 import { Route, Routes, } from "react-router-dom";
 import { Error, Home, Test } from "./pages";

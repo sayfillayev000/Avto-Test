@@ -1,3 +1,4 @@
+import './home.scss'
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 

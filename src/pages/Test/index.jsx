@@ -1,58 +1,138 @@
-import React, { memo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { bilet } from '../../Databese'
-import { defaultImg } from '../../assets/images/jpg'
-import { testDisplay } from '../../store/testsDisplay'
-import { Footer } from '../../components/layouts'
+import React, { memo, useEffect, useState } from "react";
+import { bilet } from "../../Databese";
+import { defaultImg } from "../../assets/images/jpg";
+import "./test.scss";
+import { transform } from "lodash";
 
 const index = memo(() => {
-  const dispatch = useDispatch()
-  const test = useSelector(test => test.display)
-  console.log("render2");
-  const hendlestyle = (index) => {
-    console.log(bilet.bilet1[test.answer].right, "data");
-    console.log(index, "index");
-    if (bilet.bilet1[test.answer].right === index) {
-      console.log(true);
-      return "trueTest"
-    } else if (index == 0) {
-      console.log(false);
-      return "falseTest"
-    } else if (index == 1) {
-      console.log(false);
-      return "falseTest"
-    } else if (index == 2) {
-      console.log(false);
-      return "falseTest"
-    } else if (index == 3) {
-      console.log(false);
-      return "falseTest"
-    } else if (index == 4) {
-      console.log(false);
-      return "falseTest"
-    }
-  }
-  console.log(test.right);
-  return (
-    <>
-      <div className='test__pege'>
-        <h1 className='test__title'>{bilet.bilet1[test.answer].question}</h1>
-        <div className='test__box'>
-          <img className='test__img' src={bilet.bilet1[test.answer].img ? bilet.bilet1[test.answer].img : defaultImg} alt="" />
-          <ul className='test__savollari'>
-            {
-              bilet.bilet1[test.answer].answer.map((answer, index) => (
-                <li
-                  style={(test.right && index == bilet.bilet1[test.answer].right) ? { backgroundColor: "#03DF02" } : test.right ? { backgroundColor: "red" } : null} key={answer.id} onClick={() => dispatch(testDisplay.rightTest(index))}><p>F{index + 1}</p><p>{answer}</p></li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-      <Footer />
-    </>
-  )
-})
+  const [number, setNumber] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+  const [right, setRight] = useState(false);
+  const [testNumber, setTestNumber] = useState(0);
+  const [getSavollar, setSavollar] = useState([]);
+  const [javobllar, setJavoblar] = useState([]);
+  const [surildi, setSurildi] = useState(0);
+  const [shablon, setShablon] = useState([]);
 
-export default index
+  // const [savol, setSavol] = useState(0);
+  // let getSavollar = JSON.parse(localStorage.getItem('shablon')) ? JSON.parse(localStorage.getItem('shablon')):[]
+  // let shablon;
+  useEffect(() => {
+    // shablon = JSON.parse(localStorage.getItem('shablon'))?JSON.parse(localStorage.getItem('shablon')):[];
+    // console.log(shablon);
+    setJavoblar(shablon);
+    // nima(shablon)
+  }, [disabled, surildi]);
+  // function nima(p){
+  //   console.log(p);
+  // }
+  console.log(javobllar);
+  const hendleClick = (index, i) => {
+    setDisabled(true);
+    setTestNumber(index);
+    setShablon([
+      ...shablon,
+      {
+        disabled: true,
+        savol: i,
+        variant: index,
+        status: bilet.bilet1[i].right == index,
+      },
+    ]);
+    // window.localStorage.setItem('shablon',JSON.stringify(shablon));
+
+    console.log(shablon);
+    if (index == bilet.bilet1[testNumber].right) {
+      setSavollar([
+        ...getSavollar,
+        { id: testNumber, index: index, right: "bg-success" },
+      ]);
+      setRight(true);
+      // setSavollar()
+    } else {
+      setRight(false);
+      setSavollar([
+        ...getSavollar,
+        { id: testNumber, index: "", right: "bg-danger" },
+      ]);
+    }
+
+    setDisabled(true);
+  };
+  const hendlenext = (id) => {
+    setSurildi(id);
+    setRight(false);
+
+    setDisabled(false);
+  };
+  return (
+    <div>
+      <div
+        className="test__container"
+        style={{ transform: `translateX(${-surildi * 100}vw)` }}
+      >
+        {bilet.bilet1.map((item, i) => (
+          <div id="test" key={item.id} className="test__pege">
+            <h1 className="test__title">{item.question}</h1>
+            <div className="test__box">
+              <img
+                className="test__img"
+                src={item.img ? item.img : defaultImg}
+                alt=""
+              />
+              <ul className="test__savollari">
+                {item.answer.map((answer, index) => (
+                  <button
+                    style={
+                      shablon?.find((e) => e.savol === i)?.disabled
+                        ? shablon?.find(
+                            (e) => e.savol === i && e.variant === index
+                          )?.variant === index
+                          ? shablon?.find((e) => e.variant === index)?.status
+                            ? { backgroundColor: "green" }
+                            : { backgroundColor: "red" }
+                          : null
+                        : null
+                    }
+                    disabled={shablon.find((e) => e.savol == i)?.disabled}
+                    id={i.toString()}
+                    key={index}
+                    onClick={() => hendleClick(index, i)}
+                  >
+                    <p>F{index + 1}</p>
+                    <p>{answer}</p>
+                  </button>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+      <footer className="footer__test">
+        <ul>
+          {bilet.bilet1.map((item, index) => (
+            <li
+              style={
+                shablon.find((e) => e.savol == item.id)?.disabled
+                  ? shablon[index]?.status
+                    ? { backgroundColor: "green" }
+                    : { backgroundColor: "red" }
+                  : null
+              }
+              id={item.id == surildi ? "true" : "false"}
+              className={item.id == surildi ? "true" : "false"}
+              onClick={() => hendlenext(index)}
+              key={item.id}
+            >
+              {item.id + 1}
+            </li>
+          ))}
+        </ul>
+        <div>0:23:00</div>
+      </footer>
+    </div>
+  );
+});
+
+export default index;
+// disabled && testNumber == index? bilet.bilet1[i].right == testNumber ?{backgroundColor:'green'}:{backgroundColor:'red'}:null
