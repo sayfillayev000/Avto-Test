@@ -87,8 +87,8 @@ const index = memo(() => {
                       shablon?.find((e) => e.savol === i)?.disabled
                         ? shablon?.find(
                             (e) => e.savol === i && e.variant === index
-                          )?.variant === index
-                          ? shablon?.find((e) => e.variant === index)?.status
+                          )?.variant === index 
+                          ? shablon?.find((e) =>e.savol === i && e.status)?.status
                             ? { backgroundColor: "green" }
                             : { backgroundColor: "red" }
                           : null
