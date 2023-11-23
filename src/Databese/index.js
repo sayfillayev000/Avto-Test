@@ -1,5 +1,4 @@
-// import { } from "../assets/images/png/1"
-import {img11, img12, img14, img15, img16, img17, img110, img112, img113, img115, img116, img362, img363, img364, img366, img368, img369, img371, img376, img377, img379 } from "../assets/images/png"
+import {img11, img12, img14, img15, img16, img17, img110, img112, img113, img115, img116, img362, img363, img364, img366, img368, img369, img371, img376, img377, img379 } from "../images"
 
 
 export const bilet = {

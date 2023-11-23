@@ -1,35 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
 import { bilet } from "../../Databese";
-import { defaultImg } from "../../assets/images/jpg";
+import { defaultImg } from "../../images/";
 import "./test.scss";
-import { transform } from "lodash";
 
 const index = memo(() => {
-  const [number, setNumber] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-  const [right, setRight] = useState(false);
-  const [testNumber, setTestNumber] = useState(0);
-  const [getSavollar, setSavollar] = useState([]);
-  const [javobllar, setJavoblar] = useState([]);
   const [surildi, setSurildi] = useState(0);
   const [shablon, setShablon] = useState([]);
 
-  // const [savol, setSavol] = useState(0);
-  // let getSavollar = JSON.parse(localStorage.getItem('shablon')) ? JSON.parse(localStorage.getItem('shablon')):[]
-  // let shablon;
-  useEffect(() => {
-    // shablon = JSON.parse(localStorage.getItem('shablon'))?JSON.parse(localStorage.getItem('shablon')):[];
-    // console.log(shablon);
-    setJavoblar(shablon);
-    // nima(shablon)
-  }, [disabled, surildi]);
-  // function nima(p){
-  //   console.log(p);
-  // }
-  console.log(javobllar);
   const hendleClick = (index, i) => {
-    setDisabled(true);
-    setTestNumber(index);
     setShablon([
       ...shablon,
       {
@@ -39,31 +17,9 @@ const index = memo(() => {
         status: bilet.bilet1[i].right == index,
       },
     ]);
-    // window.localStorage.setItem('shablon',JSON.stringify(shablon));
-
-    console.log(shablon);
-    if (index == bilet.bilet1[testNumber].right) {
-      setSavollar([
-        ...getSavollar,
-        { id: testNumber, index: index, right: "bg-success" },
-      ]);
-      setRight(true);
-      // setSavollar()
-    } else {
-      setRight(false);
-      setSavollar([
-        ...getSavollar,
-        { id: testNumber, index: "", right: "bg-danger" },
-      ]);
-    }
-
-    setDisabled(true);
   };
   const hendlenext = (id) => {
     setSurildi(id);
-    setRight(false);
-
-    setDisabled(false);
   };
   return (
     <div>
@@ -135,4 +91,3 @@ const index = memo(() => {
 });
 
 export default index;
-// disabled && testNumber == index? bilet.bilet1[i].right == testNumber ?{backgroundColor:'green'}:{backgroundColor:'red'}:null
