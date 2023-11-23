@@ -113,8 +113,8 @@ const index = memo(() => {
           {bilet.bilet1.map((item, index) => (
             <li
               style={
-                shablon.find((e) => e.savol == item.id)?.disabled
-                  ? shablon[index]?.status
+                shablon?.find((e) => e.savol == item.id)?.disabled
+                  ? shablon?.find((e) => e.savol == item.id)?.status
                     ? { backgroundColor: "green" }
                     : { backgroundColor: "red" }
                   : null
